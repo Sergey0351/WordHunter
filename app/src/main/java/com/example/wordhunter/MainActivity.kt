@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
                 userEmail.text.clear()
                 userPass.text.clear()
 
+                val intent = Intent(this, AuthAcitivity::class.java)
+                startActivity(intent)
             }
         }
     }

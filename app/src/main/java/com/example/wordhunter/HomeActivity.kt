@@ -18,15 +18,15 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = HomeActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Home())
+        replaceFragment(Favorite())
         // Check point
         binding.bNav.setOnItemSelectedListener {
 
             when(it.itemId){
-
+                R.id.Favorite -> replaceFragment(Favorite())
                 R.id.Home -> replaceFragment(Home())
                 R.id.Profile -> replaceFragment(Profile())
-                R.id.Favorite -> replaceFragment(Favorite())
+
 
                 else ->{
 

@@ -24,7 +24,7 @@ class HomeActivity : AppCompatActivity() {
 
             when(it.itemId){
                 R.id.Favorite -> replaceFragment(Favorite())
-                R.id.Home -> replaceFragment(Home())
+                R.id.Home -> replaceFragment(HomeFragment())
                 R.id.Profile -> replaceFragment(Profile())
 
 

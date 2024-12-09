@@ -21,7 +21,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Список модулей
-        val modules = listOf("Модуль 1", "Модуль 2", "Модуль 3")
+        val modules = listOf("Модуль 1", "Модуль 2", "Модуль 3",
+            "Модуль 4", "Модуль 5", "Модуль 6", "Модуль 7", "Модуль 8", "Модуль 9",
+            "Модуль 10", "Модуль 11", "Модуль 12",
+            "Модуль 1", "Модуль 2", "Модуль 3",
+            "Модуль 4", "Модуль 5", "Модуль 6", "Модуль 7", "Модуль 8", "Модуль 9",
+            "Модуль 10", "Модуль 11", "Модуль 12")
 
         // Получаем ссылку на ListView
         val modulesListView: ListView = view.findViewById(R.id.modulesListView)
@@ -31,3 +36,4 @@ class HomeFragment : Fragment() {
         modulesListView.adapter = adapter
     }
 }
+

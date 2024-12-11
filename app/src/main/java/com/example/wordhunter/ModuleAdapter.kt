@@ -2,11 +2,13 @@ package com.example.wordhunter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.content.Intent
 import android.widget.Toast
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import androidx.core.content.ContextCompat
 
 // Адаптер для списка
 class ModuleAdapter(
@@ -35,7 +37,8 @@ class ModuleAdapter(
             // Тут можно добавить код для перехода на другие экраны или действия
             when (position) {
                 0 -> {
-                    // Действие для первого модуля
+                    val intent = Intent(context, ModuleCardsActivity::class.java)
+                    ContextCompat.startActivity(context, intent, null)
                 }
                 1 -> {
                     // Действие для второго модуля

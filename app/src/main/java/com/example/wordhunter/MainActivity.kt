@@ -1,21 +1,22 @@
 package com.example.wordhunter
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        navController = findNavController(R.id.nav_host_fragment)
 
         val userLogin: EditText = findViewById(R.id.user_login)
         val userEmail: EditText = findViewById(R.id.user_email)
@@ -24,30 +25,25 @@ class MainActivity : AppCompatActivity() {
         val linkToAuth: TextView = findViewById(R.id.link_to_auth)
 
         linkToAuth.setOnClickListener {
-            val intent = Intent(this, AuthAcitivity::class.java)
-            startActivity(intent)
+            navController.navigate(R.id.action_registrationActivity_to_authActivity)
         }
 
-        button.setOnClickListener{
+        button.setOnClickListener {
             val login = userLogin.text.toString().trim()
             val email = userEmail.text.toString().trim()
             val password = userPass.text.toString().trim()
 
-            if (login == "" || email == "" || password == "")
+            if (login.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_LONG).show()
-            else {
-                val user = User(login, email,password)
-
-                val db = DBhelper(this,null)
-                db.addUser(user)
+            } else {
+                // Регистрация
                 Toast.makeText(this, "Пользователь $login добавлен", Toast.LENGTH_LONG).show()
-
                 userLogin.text.clear()
                 userEmail.text.clear()
                 userPass.text.clear()
 
-                val intent = Intent(this, AuthAcitivity::class.java)
-                startActivity(intent)
+                // Переход на экран авторизации
+                navController.navigate(R.id.action_registrationActivity_to_authActivity)
             }
         }
     }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/registrationActivity">
+
+    <!-- Регистрация -->
+    <activity
+        android:id="@+id/registrationActivity"
+        android:name="com.example.wordhunter.MainActivity"
+        android:label="Регистрация"
+        tools:layout="@layout/activity_main">
+        <action
+            android:id="@+id/action_registrationActivity_to_authActivity"
+            app:destination="@id/authActivity" />
+    </activity>
+
+    <!-- Авторизация -->
+    <activity
+        android:id="@+id/authActivity"
+        android:name="com.example.wordhunter.AuthActivity"
+        android:label="Авторизация"
+        tools:layout="@layout/activity_auth_acitivity">
+        <action
+            android:id="@+id/action_authActivity_to_registrationActivity"
+            app:destination="@id/registrationActivity" />
+        <action
+            android:id="@+id/action_authActivity_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </activity>
+
+    <!-- Главная активность -->
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.wordhunter.HomeActivity"
+        android:label="Главная"
+        tools:layout="@layout/home_activity">
+        <action
+            android:id="@+id/action_homeActivity_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_homeActivity_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </activity>
+
+    <!-- Избранное -->
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.wordhunter.Favorite"
+        android:label="Избранное"
+        tools:layout="@layout/fragment_favorite" />
+
+    <!-- Профиль -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.wordhunter.Profile"
+        android:label="Профиль"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

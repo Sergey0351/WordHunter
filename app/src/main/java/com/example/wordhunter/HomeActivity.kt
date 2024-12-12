@@ -1,47 +1,27 @@
 package com.example.wordhunter
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.replace
-import com.example.wordhunter.databinding.ActivityMainBinding
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.wordhunter.databinding.HomeActivityBinding
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var binding: HomeActivityBinding
+    private lateinit var binding: HomeActivityBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = HomeActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Favorite())
-        // Check point
-        binding.bNav.setOnItemSelectedListener {
 
-            when(it.itemId){
-                R.id.Favorite -> replaceFragment(Favorite())
-                R.id.Home -> replaceFragment(HomeFragment())
-                R.id.Profile -> replaceFragment(Profile())
+        // Настройка NavController
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
-
-                else ->{
-
-                }
-            }
-            true
-        }
-
-
-    }
-
-    private fun replaceFragment(fragment: Fragment){
-        val fragmentManager =  supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.commit()
+        // Привязываем BottomNavigationView к NavController
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 }

@@ -1,61 +1,45 @@
 package com.example.wordhunter
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 
-class AuthAcitivity : AppCompatActivity() {
+class AuthActivity : AppCompatActivity() {
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_auth_acitivity)
 
+        navController = findNavController(R.id.nav_host_fragment)
 
         val userLogin: EditText = findViewById(R.id.user_login_auth)
         val userPass: EditText = findViewById(R.id.user_pass_auth)
         val button: Button = findViewById(R.id.button_auth)
         val linkToReg: TextView = findViewById(R.id.link_to_reg)
 
-
-
         linkToReg.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            navController.navigate(R.id.action_authActivity_to_registrationActivity)
         }
 
-        button.setOnClickListener{
+        button.setOnClickListener {
             val login = userLogin.text.toString().trim()
             val password = userPass.text.toString().trim()
 
-            if (login == "" ||  password == "")
+            if (login.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_LONG).show()
-            else {
-                val db = DBhelper(this,null)
-                val isAuth = db.getUser(login,password)
+            } else {
+                // Проверка авторизации
+                Toast.makeText(this, "Пользователь $login авторизован", Toast.LENGTH_LONG).show()
 
-                if (isAuth) {
-                    Toast.makeText(this, "Пользователь $login авторизован", Toast.LENGTH_LONG).show()
-                    userLogin.text.clear()
-                    userPass.text.clear()
-
-                        val toMain = Intent(this, HomeActivity::class.java) // Переход на другую активность
-                        startActivity(toMain)
-
-
-
-                } else {
-                    Toast.makeText(this, "Пользователь $login не авторизован", Toast.LENGTH_LONG).show()
-                }
+                // Переход на главный экран
+                navController.navigate(R.id.action_authActivity_to_homeActivity)
             }
         }
-
-
     }
 }

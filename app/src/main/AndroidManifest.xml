@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:name="android.permission.INTERNET"
         android:maxSdkVersion="32" />
 
     <application
@@ -28,9 +28,7 @@
         <activity
             android:name=".AuthAcitivity"
             android:exported="false" />
-        <activity
-            android:name=".registerActivity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

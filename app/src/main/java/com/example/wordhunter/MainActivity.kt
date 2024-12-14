@@ -1,5 +1,6 @@
 package com.example.wordhunter
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -10,6 +11,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        var sp = getSharedPreferences("PC", Context.MODE_PRIVATE).edit()
         val userLogin: EditText = findViewById(R.id.user_login)
         val userEmail: EditText = findViewById(R.id.user_email)
         val userPass: EditText = findViewById(R.id.user_pass)
@@ -28,27 +33,35 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         button.setOnClickListener{
-            val login = userLogin.text.toString().trim()
-            val email = userEmail.text.toString().trim()
-            val password = userPass.text.toString().trim()
-
-            if (login == "" || email == "" || password == "")
-                Toast.makeText(this, "Не все поля заполнены", Toast.LENGTH_LONG).show()
+            if(userLogin.text.isEmpty()) {
+                Toast.makeText(this,"Проверьте поле login", Toast.LENGTH_LONG).show()
+            }
+            else if(userPass.text.isEmpty() || userPass.text.length<5){
+                Toast.makeText(this,"Пароль должен быть больше 4 символов", Toast.LENGTH_LONG).show()
+            }
             else {
-                val user = User(login, email,password)
+                val db = Firebase.firestore
+                // Create a new user with a first and last name
+                val user = hashMapOf(
+                    "login" to userLogin.text.toString(),
+                    "password" to userPass.text.toString()
+                )
 
-                val db = DBhelper(this,null)
-                db.addUser(user)
-                Toast.makeText(this, "Пользователь $login добавлен", Toast.LENGTH_LONG).show()
 
-                userLogin.text.clear()
-                userEmail.text.clear()
-                userPass.text.clear()
-
-                val intent = Intent(this, AuthAcitivity::class.java)
-                startActivity(intent)
+                db.collection("users")
+                    .add(user)
+                    .addOnSuccessListener { documentReference ->
+                        sp.putString("Login",userLogin.text.toString()).commit()
+                        startActivity(Intent(this,AuthAcitivity::class.java))
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Неполучилось,попробуйте позже", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
+
+
     }
 }
